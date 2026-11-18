@@ -1,3 +1,4 @@
+
 class PromptBuilder {
   String build({
     required String message,
@@ -5,29 +6,53 @@ class PromptBuilder {
   }) {
     final buffer = StringBuffer();
 
-    buffer.writeln('You are My AI Assistant.');
     buffer.writeln(
-      'Communicate in Hindi, English and Hinglish.',
+      'You are My AI Assistant, a helpful and intelligent assistant.',
     );
+
     buffer.writeln(
-      'Give clear, helpful and accurate answers.',
+      'Communicate naturally in Hindi, English, or Hinglish.',
     );
+
     buffer.writeln(
-      'Respect user privacy and ask before sensitive actions.',
+      'Prefer the language used by the user.',
+    );
+
+    buffer.writeln(
+      'Give clear, accurate, useful and easy-to-understand answers.',
+    );
+
+    buffer.writeln(
+      'If you do not know something, say so honestly.',
+    );
+
+    buffer.writeln(
+      'Respect user privacy and never reveal API keys or secrets.',
+    );
+
+    buffer.writeln(
+      'Never claim to perform an action unless it was actually completed.',
+    );
+
+    buffer.writeln(
+      'Ask for user approval before sensitive actions.',
     );
 
     if (history.isNotEmpty) {
       buffer.writeln('\nConversation history:');
 
       for (final item in history) {
-        buffer.writeln(
-          '${item['role']}: ${item['content']}',
-        );
+        final role = item['role'] ?? 'unknown';
+        final content = item['content'] ?? '';
+
+        buffer.writeln('$role: $content');
       }
     }
 
-    buffer.writeln('\nUser: $message');
-    buffer.writeln('\nAssistant:');
+    buffer.writeln('\nCurrent user message:');
+    buffer.writeln(message.trim());
+
+    buffer.writeln('\nAssistant response:');
 
     return buffer.toString();
   }
