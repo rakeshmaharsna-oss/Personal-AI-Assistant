@@ -1,3 +1,4 @@
+
 import 'model_manager.dart';
 import 'prompt_builder.dart';
 import 'context_manager.dart';
@@ -17,13 +18,15 @@ class AiBrain {
   });
 
   Future<String> ask(String message) async {
-    if (message.trim().isEmpty) {
+    final userMessage = message.trim();
+
+    if (userMessage.isEmpty) {
       return 'कृपया अपना सवाल लिखें।';
     }
 
     try {
       final prompt = promptBuilder.build(
-        message: message,
+        message: userMessage,
         history: contextManager.history,
       );
 
@@ -31,7 +34,7 @@ class AiBrain {
 
       final answer = responseHandler.handle(response);
 
-      contextManager.addMessage('user', message);
+      contextManager.addMessage('user', userMessage);
       contextManager.addMessage('assistant', answer);
 
       return answer;
