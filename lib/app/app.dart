@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_config.dart';
 import 'theme.dart';
+import '../routes/app_routes.dart';
 
 class PersonalAIAssistant extends StatelessWidget {
   const PersonalAIAssistant({super.key});
@@ -10,23 +11,15 @@ class PersonalAIAssistant extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: AppConfig.appName,
 
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
 
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'My AI Assistant',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      initialRoute: AppRoutes.home,
+      onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }
