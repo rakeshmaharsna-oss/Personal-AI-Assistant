@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../screens/home_screen.dart';
@@ -22,9 +23,9 @@ class AppRoutes {
   static const String files = '/files';
 
   static Route<dynamic>? onGenerateRoute(
-    RouteSettings settings,
+    RouteSettings routeSettings,
   ) {
-    switch (settings.name) {
+    switch (routeSettings.name) {
       case home:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
@@ -33,7 +34,7 @@ class AppRoutes {
       case chat:
         return MaterialPageRoute(
           builder: (_) => const ChatScreen(),
-          settings: settings,
+          settings: routeSettings,
         );
 
       case voice:
@@ -61,7 +62,7 @@ class AppRoutes {
           builder: (_) => const HistoryScreen(),
         );
 
-      case settings:
+      case AppRoutes.settings:
         return MaterialPageRoute(
           builder: (_) => const SettingsScreen(),
         );
