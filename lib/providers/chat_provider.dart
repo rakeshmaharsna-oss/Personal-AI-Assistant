@@ -1,11 +1,15 @@
+
 import 'package:flutter/foundation.dart';
+
 import '../models/chat_message.dart';
 import '../brain/ai_brain.dart';
 
 class ChatProvider extends ChangeNotifier {
   final AiBrain aiBrain;
 
-  ChatProvider({required this.aiBrain});
+  ChatProvider({
+    required this.aiBrain,
+  });
 
   final List<ChatMessage> _messages = [];
 
@@ -16,27 +20,33 @@ class ChatProvider extends ChangeNotifier {
   String? errorMessage;
 
   Future<void> sendMessage(String text) async {
-    if (text.trim().isEmpty || isLoading) return;
+    final userText = text.trim();
 
-    final userMessage = ChatMessage(
-      id: DateTime.now().microsecondsSinceEpoch.toString(),
-      text: text.trim(),
-      role: MessageRole.user,
-      createdAt: DateTime.now(),
+    if (userText.isEmpty || isLoading) return;
+
+    final now = DateTime.now();
+
+    _messages.add(
+      ChatMessage(
+        id: now.microsecondsSinceEpoch.toString(),
+        text: userText,
+        role: MessageRole.user,
+        createdAt: now,
+      ),
     );
-
-    _messages.add(userMessage);
 
     isLoading = true;
     errorMessage = null;
     notifyListeners();
 
     try {
-      final response = await aiBrain.ask(text);
+      final response = await aiBrain.ask(userText);
 
       _messages.add(
         ChatMessage(
-          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          id: DateTime.now()
+              .microsecondsSinceEpoch
+              .toString(),
           text: response,
           role: MessageRole.assistant,
           createdAt: DateTime.now(),
@@ -54,6 +64,7 @@ class ChatProvider extends ChangeNotifier {
     _messages.clear();
     aiBrain.clearConversation();
     errorMessage = null;
+    isLoading = false;
     notifyListeners();
   }
 }
