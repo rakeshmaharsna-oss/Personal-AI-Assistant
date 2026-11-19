@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
 
+import '../widgets/ai_orb.dart';
+import '../widgets/app_drawer.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -26,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/chat',
       arguments: text,
     );
+
     controller.clear();
   }
 
@@ -34,48 +38,33 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My AI Assistant'),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () => Navigator.pushNamed(context, '/tools'),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () => Navigator.pushNamed(context, '/settings'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
           ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
             const Spacer(),
-            Container(
-              height: 190,
-              width: 190,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const RadialGradient(
-                  colors: [
-                    Colors.white,
-                    Color(0xFFB8D6FF),
-                    Color(0xFF3978F6),
-                  ],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.25),
-                    blurRadius: 40,
-                    spreadRadius: 8,
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.auto_awesome,
-                color: Colors.white,
-                size: 70,
-              ),
-            ),
+
+            const AiOrb(size: 190),
+
             const SizedBox(height: 30),
+
             const Text(
               'Hello! I am your AI Assistant',
               textAlign: TextAlign.center,
@@ -84,12 +73,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 10),
+
             const Text(
               'How can I help you today?',
               style: TextStyle(color: Colors.grey),
             ),
+
             const Spacer(),
+
             Padding(
               padding: const EdgeInsets.all(16),
               child: TextField(
